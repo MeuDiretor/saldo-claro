@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Receitas, gastos e metas em um lugar. Um organizador financeiro local, simples e sem conta.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' blob:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <title>Saldo Claro — seu mês, organizado</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css?v=1.0.3"><script type="module" src="app.js?v=1.0.3"></script>
+</head>
+<body>
+  <a class="skip" href="#workspace">Ir para o conteúdo</a>
+  <aside class="rail">
+    <a class="brand" href="#workspace"><img src="assets/mark.svg" alt="" width="38" height="38"><span>saldo<br>claro<span class="brand-dot">.</span></span></a>
+    <nav aria-label="Navegação principal"><a href="#workspace" aria-label="Visão do mês">01 <span>Visão do mês</span></a><a href="#extrato" aria-label="Extrato">02 <span>Extrato</span></a><a href="#metas" aria-label="Minhas metas">03 <span>Minhas metas</span></a></nav>
+    <div class="rail-bottom"><span class="local-dot"></span> Sem conta. Sem conexão bancária.<p>Os dados ficam neste navegador. Exporte uma cópia para guardar.</p><button id="export" class="quiet">↓ Exportar dados</button><label class="file-button" for="import">↑ Importar cópia</label><input class="file-input" type="file" accept="application/json,.json" id="import"></div>
+  </aside>
+  <main id="workspace" tabindex="-1">
+    <header><div><p class="eyebrow">SEU DINHEIRO, COM CLAREZA</p><h1>Visão do mês</h1></div><label class="month-label" for="month">Período<input type="month" id="month" required></label></header>
+    <div id="status" class="status" role="status" aria-live="polite">Tudo pronto para começar. Seus dados ficam só aqui.</div>
+    <section class="totals" aria-label="Resumo financeiro do mês"><div><span>Saldo do mês</span><strong id="balance">R$ 0,00</strong><small>Receitas menos despesas</small></div><div><span>Entradas</span><strong id="income">R$ 0,00</strong><small id="income-count">Nenhuma receita</small></div><div><span>Saídas</span><strong id="expense">R$ 0,00</strong><small id="expense-count">Nenhuma despesa</small></div></section>
+    <div class="workspace-grid">
+      <section class="conversation" aria-labelledby="chat-heading"><div class="section-heading"><div><p class="eyebrow">UMA FRASE DE CADA VEZ</p><h2 id="chat-heading">Conte o que aconteceu.</h2></div><span class="chat-symbol" aria-hidden="true">↗</span></div>
+        <p class="description">Descreva o valor e o motivo. Você confere tudo antes de salvar.</p>
+        <div class="examples" aria-label="Exemplos de frases"><button data-example="Gastei 35,90 no mercado">− Mercado</button><button data-example="Recebi 3.000 de salário">+ Salário</button><button data-example="Criar meta Reserva de emergência de R$ 5.000">◎ Nova meta</button></div>
+        <div id="messages" class="messages" role="log" aria-label="Conversa desta sessão" aria-live="polite"><p class="assistant">Você pode dizer “Gastei 35,90 no mercado” ou “Criar meta Viagem de 1.200”. Uma ação e um valor por mensagem.</p></div>
+        <form id="chat-form"><div class="compose"><label for="message">Seu lançamento</label><textarea id="message" maxlength="300" rows="2" placeholder="Ex.: Gastei 42,50 no almoço" required></textarea><div class="compose-bottom"><label for="date">Data <input type="date" id="date" required></label><button class="primary" type="submit">Revisar <span aria-hidden="true">↗</span></button></div></div></form>
+        <p class="fine">Reconhecimento por frases simples e regras locais. Confira a categoria sugerida. Nenhuma mensagem é enviada a um servidor.</p>
+      </section>
+      <aside class="context"><section class="categories" aria-labelledby="categories-heading"><p class="eyebrow">PARA ONDE FOI</p><h2 id="categories-heading">Gastos por categoria</h2><div id="categories"></div></section><section id="metas" aria-labelledby="goals-heading"><div class="section-heading"><div><p class="eyebrow">UM POUCO A CADA VEZ</p><h2 id="goals-heading">Minhas metas</h2></div></div><div id="goals"></div><button id="new-goal" class="quiet">+ Criar uma meta pela conversa</button><p class="fine">Aportes acompanham sua meta e não alteram o saldo do mês.</p></section></aside>
+    </div>
+    <section class="ledger" id="extrato" aria-labelledby="ledger-heading"><div class="section-heading"><div><p class="eyebrow">CADA MOVIMENTO CONTA</p><h2 id="ledger-heading">Extrato</h2></div><label for="filter">Mostrar<select id="filter"><option value="all">Todos os movimentos</option><option value="income">Só receitas</option><option value="expense">Só despesas</option></select></label></div><div class="table-scroll"><table><caption class="sr-only">Lançamentos do período selecionado</caption><thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th class="amount">Valor</th><th><span class="sr-only">Ação</span></th></tr></thead><tbody id="rows"></tbody></table></div><div id="empty" class="empty"><span aria-hidden="true">↗</span><h3>Seu primeiro registro começa com uma frase.</h3><p>Registre uma entrada ou saída acima, ou explore um mês com dados fictícios.</p><button id="demo" class="quiet">Explorar exemplo fictício</button></div><p id="row-count" class="fine"></p></section>
+    <footer><strong>saldo claro.</strong><p>Organização pessoal local. Não oferece recomendações de investimento nem substitui um serviço bancário.</p><span>Uma cópia dos seus dados está a um clique em Exportar.</span></footer>
+  </main>
+  <dialog id="review" aria-labelledby="review-heading"><form id="review-form"><button type="button" id="cancel-x" class="close" aria-label="Cancelar revisão">×</button><p class="eyebrow" id="review-eyebrow">CONFIRA ANTES DE SALVAR</p><h2 id="review-heading">Revisar lançamento</h2><p id="review-description" class="description"></p><div id="fields"></div><p class="fine" id="review-note">Só a confirmação grava os dados neste navegador.</p><div class="dialog-actions"><button type="button" id="cancel" class="quiet">Cancelar</button><button type="submit" id="confirm" class="primary">Confirmar e salvar</button></div><p id="review-error" role="alert" class="error"></p></form></dialog>
+</body></html>
